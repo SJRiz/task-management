@@ -1,30 +1,53 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [txt, setTxt] = useState("")
+  const [tasks, setTasks] = useState([])
+
+  useEffect(()=> {
+    axios.get("http://127.0.0.1:5000/tasks")
+    .then((res)=> {
+      setTasks(res.data.tasks)
+    })
+    .catch((err)=> {
+      console.log(err)
+    })
+  } , [])
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    axios.post("http://127.0.0.1:5000/tasks", {"taskDesc": txt})
+    .then((res)=> {
+      setTxt("")
+      setTasks([...tasks, res.data])
+    })
+    .catch((err)=> {
+      console.log(err)
+    })
+  }
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <p>New Item</p>
+        <form onSubmit={handleSubmit}>
+          <input type="text"
+          value={txt}
+          onChange={e=>setTxt(e.target.value)}/>
+          <button type="submit">Add</button>
+        </form>
+        <p>Tasks</p>
+
+        {tasks.map(task => {
+          return (
+            <div key={task.id}>
+              <p>{task.taskDesc} - {task.id}</p>
+            </div>
+          )
+        })}
+
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
   )
 }

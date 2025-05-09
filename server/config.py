@@ -9,5 +9,4 @@ CORS(app)
 # Configurations to set up the database (using sqlite)
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///taskdatabase.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-
 db = SQLAlchemy(app)

@@ -25,6 +25,11 @@ def create_task():
         db.session.add(new_task)
         db.session.commit()
 
+        return jsonify({
+            "id": new_task.id,
+            "taskDesc": new_task.task_desc
+        }), 201
+
     except Exception as err:
         return jsonify({"message": str(err)}), 400
 
