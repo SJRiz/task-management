@@ -45,6 +45,8 @@ def update_task(id):
         task.task_desc = request.json.get("taskDesc", task.task_desc)
         db.session.commit()
 
+        return jsonify({})
+
     except Exception as err:
         return jsonify({"message": str(err)}), 400
 

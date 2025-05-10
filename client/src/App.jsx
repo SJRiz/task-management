@@ -4,9 +4,10 @@ import { TaskForm } from './TaskForm'
 import { TaskList } from './TaskList'
 
 function App() {
-  const [tasks, setTasks] = useState([])
-  const [refresh, setRefresh] = useState(0)
+  const [tasks, setTasks] = useState([]) // Loads the tasks from the DB
+  const [refresh, setRefresh] = useState(0) // When changed, the page will automatically call the get method
 
+  // Hook that gets the tasks from the database
   useEffect(()=> {
     axios.get("http://127.0.0.1:5000/tasks")
     .then((res)=> {
@@ -15,8 +16,9 @@ function App() {
     .catch((err)=> {
       console.log(err)
     })
-  } , [refresh])
+  } , [refresh]) // Anytime the refresh state is changed, update the tasks via the DB
 
+  // Function that adds a task to the DB. Uses the POST method
   function addTask(task) {
     axios.post("http://127.0.0.1:5000/tasks", {"taskDesc": task})
     .then(()=> {
@@ -27,6 +29,7 @@ function App() {
     })
   }
 
+  // Function that either edits or removes an individual task. Uses DELETE or PATCH depending if a text is given
   function editTask(task, newTxt) {
     let request;
   

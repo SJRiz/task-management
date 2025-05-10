@@ -3,9 +3,11 @@ import { TaskItem } from "./TaskItem"
 export function TaskList({ tasks, editTask }) {
     return (
         <div>
-            <p>Tasks</p>
-            <ul>
+            <h2><u>Tasks</u></h2>
+            { tasks.length > 0 ?
+            (<ul>
                 {tasks.map(task => {
+                // Load each task in the list using a map
                 return (
                     <TaskItem
                     task={task}
@@ -13,7 +15,9 @@ export function TaskList({ tasks, editTask }) {
                     editTask={editTask}/>
                 )
                 })}
-            </ul>
+            </ul>) :
+            (<p>No tasks</p>)
+            }
         </div>
     )
 }
