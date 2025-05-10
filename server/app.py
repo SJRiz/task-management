@@ -57,8 +57,9 @@ def delete_task(id):
         if not task:
             return jsonify({"message": "Task not found"}), 404
 
-        db.session.remove(task)
+        db.session.delete(task)
         db.session.commit()
+        return jsonify({})
 
     except Exception as err:
         return jsonify({"message": str(err)}), 400

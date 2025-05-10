@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
+import { TaskForm } from './TaskForm'
+import { TaskList } from './TaskList'
 
 function App() {
-  const [txt, setTxt] = useState("")
   const [tasks, setTasks] = useState([])
+  const [refresh, setRefresh] = useState(0)
 
   useEffect(()=> {
     axios.get("http://127.0.0.1:5000/tasks")
@@ -13,42 +15,44 @@ function App() {
     .catch((err)=> {
       console.log(err)
     })
-  } , [])
+  } , [refresh])
 
-  function handleSubmit(e) {
-    e.preventDefault()
-    axios.post("http://127.0.0.1:5000/tasks", {"taskDesc": txt})
-    .then((res)=> {
-      setTxt("")
-      setTasks([...tasks, res.data])
+  function addTask(task) {
+    axios.post("http://127.0.0.1:5000/tasks", {"taskDesc": task})
+    .then(()=> {
+      setRefresh(prev => prev + 1)
     })
     .catch((err)=> {
       console.log(err)
     })
   }
 
+  function editTask(task, newTxt) {
+    let request;
+  
+    if (newTxt) {
+      request = axios.patch(`http://127.0.0.1:5000/tasks/${task.id}`, {
+        "taskDesc": newTxt
+      });
+    } else {
+      request = axios.delete(`http://127.0.0.1:5000/tasks/${task.id}`);
+    }
+  
+    request
+      .then(() => {
+        setRefresh(prev => prev + 1);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+
   return (
-    <>
       <div>
-        <p>New Item</p>
-        <form onSubmit={handleSubmit}>
-          <input type="text"
-          value={txt}
-          onChange={e=>setTxt(e.target.value)}/>
-          <button type="submit">Add</button>
-        </form>
-        <p>Tasks</p>
-
-        {tasks.map(task => {
-          return (
-            <div key={task.id}>
-              <p>{task.taskDesc} - {task.id}</p>
-            </div>
-          )
-        })}
-
+        <TaskForm addTask={addTask} />
+        <TaskList tasks={tasks}
+        editTask={editTask} />
       </div>
-    </>
   )
 }
 
