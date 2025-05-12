@@ -12,22 +12,27 @@ export function TaskItem({ task, editTask }) {
 
   return (
     <li>
-      <div>
+      <div className="flex items-center space-x-1 justify-between w-full border-b-1 p-2">
         {isEditing ? (
             // If we are editing the task, turn the text into an input and put a save button that will update the task
           <>
             <input
+              className="bg-white text-black rounded-2xl text-center mb-1"
               value={newText}
               onChange={(e) => setNewText(e.target.value)}
             />
-            <button onClick={handleSave}>Save</button>
-            <button onClick={() => setIsEditing(false)}>Cancel</button>
+            <button 
+            className="bg-gray-950 p-2 rounded-2xl border-1"
+            onClick={handleSave}>Save</button>
+            <button
+            className="bg-gray-950 p-2 rounded-2xl border-1"
+            onClick={() => setIsEditing(false)}>Cancel</button>
           </>
         ) : (
             // If we are not editing the task (default), just show it as a paragraph
           <>
-            <p>{task.taskDesc}</p>
-            <button onClick={() => setIsEditing(true)}>✏️</button>
+            <p className='flex-grow text-left break-words whitespace-normal w-50'>{task.taskDesc}</p>
+            <button className='size-5' onClick={() => setIsEditing(true)}>✏️</button>
             <button onClick={() => editTask(task, null)}>❌</button>
           </>
         )}

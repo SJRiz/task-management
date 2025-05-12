@@ -12,13 +12,15 @@ export function TaskForm({addTask}){
       }
 
     return (
-        <div>
-            <p>New Item</p>
+        <div className="border-b-1 border-t mt-3 p-2 border-gray-500">
+            <p className="mt-4">New Task</p>
             <form onSubmit={handleSubmit}>
             <input type="text"
+            className="bg-white text-black rounded-2xl text-center mb-2 mt-4 w-80"
             value={txt}
             onChange={e=>setTxt(e.target.value)}/>
-            <button type="submit">Add</button>
+            <br/>
+            <button type="submit" id="btn">Add</button>
             </form>
         </div>
     )

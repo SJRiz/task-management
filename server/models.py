@@ -1,9 +1,11 @@
 from config import db
 from uuid import uuid4
 
+# Creates an ID
 def get_uuid():
     return uuid4().hex
 
+# User model created from log in
 class User(db.Model):
     __tablename__ = "users"
     id = db.Column(db.String(32), primary_key=True, unique=True, default=get_uuid)
