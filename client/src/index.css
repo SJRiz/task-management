@@ -41,6 +41,7 @@ h1 {
 }
 #btn:hover {
   border-color: #646cff;
+  scale: 1.02
 }
 #btn:focus,
 #btn:focus-visible {
