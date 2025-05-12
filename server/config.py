@@ -16,6 +16,6 @@ CORS(app)
 app.config["JWT_SECRET_KEY"] = os.environ["SECRET_KEY"]
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///taskdatabase.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-jwt = JWTManager(app)
 
+jwt = JWTManager(app)
 db = SQLAlchemy(app)

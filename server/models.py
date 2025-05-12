@@ -14,8 +14,8 @@ class User(db.Model):
 class Task(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     task_desc = db.Column(db.String(200), nullable=False)
+    user_id = db.Column(db.String(32), db.ForeignKey('users.id'), nullable=False)
 
-    # Method that will return the model data into a dict, easier for json
     def to_dict(self):
         return {
             "id": self.id,
