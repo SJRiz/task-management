@@ -1,6 +1,43 @@
 from flask import request, jsonify
-from config import app, db
-from models import Task
+from flask_bcrypt import bcrypt
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
+from config import app, db, jwt
+from models import Task, User
+
+@app.route("/register", methods=["POST"])
+def register_user():
+    data = request.json
+    email = data.get("email")
+    password = data.get("password")
+    user_exists = User.query.filter_by(email=email).first() is not None
+
+    if user_exists:
+        return jsonify({"message": "User already exists"})
+    hashed_password = bcrypt.generate_password_hash(password)
+    new_user = User(email=email, password=hashed_password)
+    db.session.add(new_user)
+    db.session.commit()
+
+    return jsonify({
+        "id": new_user.id,
+        "email": new_user.email
+    })
+
+@app.route("/login", methods=["POST"])
+def login_user():
+    data = request.json
+    email = data.get("email")
+    password = data.get("password")
+    user = User.query.filter_by(email=email).first()
+
+    if user is None:
+        return jsonify({"message": "Unauthorized"}), 401
+    
+    if not bcrypt.check_password_hash(user.password, password):
+        return jsonify({"message": "Unauthorized"}), 401
+    
+    access_token = create_access_token(identity=email)
+    return jsonify(access_token=access_token)
 
 # Get/Read method for seeing all the tasks
 @app.route("/tasks", methods=["GET"])

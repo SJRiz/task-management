@@ -3,6 +3,9 @@
     "concurrently": "^9.1.2"
   },
   "scripts": {
-  "dev": "concurrently \"npm run dev --prefix client\" \"npm run flask --prefix server\""
-}
+    "dev": "concurrently \"npm run dev --prefix client\" \"npm run flask --prefix server\""
+  },
+  "dependencies": {
+    "react-router-dom": "^7.6.0"
+  }
 }
