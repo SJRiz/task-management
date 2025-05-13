@@ -10,7 +10,7 @@ from flask_jwt_extended import JWTManager
 
 # Create the app and enable cross referencing for API calls
 app = Flask(__name__)
-CORS(app)
+CORS(app, origins="https://task-management-1-vpak.onrender.com")
 
 # Configurations to set up the database (using sqlite)
 app.config["JWT_SECRET_KEY"] = os.environ["SECRET_KEY"]
