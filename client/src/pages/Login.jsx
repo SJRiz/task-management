@@ -10,7 +10,7 @@ export default function Login({setIsLoggedIn, setSavedEmail}) {
     const handleLogin = async (e) => {
         e.preventDefault()
         try {
-            const res = await axios.post("http://127.0.0.1:5000/login", { email, password })
+            const res = await axios.post("https://task-management-1dlj.onrender.com/login", { email, password })
             const token = res.data.access_token
             localStorage.setItem("token", token)
             localStorage.setItem("email", email)

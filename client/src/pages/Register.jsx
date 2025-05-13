@@ -17,7 +17,7 @@ export default function Register() {
         setError("");
 
         try {
-        const res = await axios.post("http://localhost:5000/register", form);
+        const res = await axios.post("https://task-management-1dlj.onrender.com/register", form);
         navigate("/login"); // redirect after registration
         } catch (err) {
             alert("Sign In Failed")
